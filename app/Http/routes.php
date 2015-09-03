@@ -1,16 +1,14 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
+Route::get('auth/login', 'AuthController@getLogin');
+Route::get('account/github', 'AuthController@redirectToProvider');
+Route::get('account/github/callback', 'AuthController@handleProviderCallback');
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' =>'auth'], function() {
+
+  get('dashboard', function() {
+    echo '<img src="'. Auth::user()->avatar .'" />';
+    return 'youre logged in';
+  });
+
 });
