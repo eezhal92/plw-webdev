@@ -13,4 +13,11 @@ Route::group(['middleware' =>'auth'], function() {
     return 'youre logged in';
   });
 
+  get('auth/logout', function() {
+    \Auth::logout();
+
+    return redirect('/');
+  });
+
+
 });

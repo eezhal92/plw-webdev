@@ -12,10 +12,21 @@
 */
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
+    $name = $faker->name;
+
     return [
-        'name' => $faker->name,
+        'username' => strtolower($name),
+        'name' => $name,
         'email' => $faker->email,
-        'password' => bcrypt(str_random(10)),
-        'remember_token' => str_random(10),
+        'avatar' => $faker->imageUrl($width = 640, $height = 480),
+    ];
+});
+
+$factory->define(App\Post::class, function (Faker\Generator $faker) {
+    $title = $faker->sentence;
+    return [
+        'title' => $title,
+        'slug' => str_slug($title),
+        'body' => $faker->paragraph,
     ];
 });
