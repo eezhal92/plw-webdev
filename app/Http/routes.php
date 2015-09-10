@@ -1,8 +1,10 @@
 <?php
 
-Route::get('auth/login', 'AuthController@getLogin');
-Route::get('account/github', 'AuthController@redirectToProvider');
-Route::get('account/github/callback', 'AuthController@handleProviderCallback');
+get('/', 'HomeController@index');
+
+get('auth/login', 'Auth\AuthController@getLogin');
+get('auth/github', 'Auth\AuthController@redirectToProvider');
+get('auth/github/callback', 'Auth\AuthController@handleProviderCallback');
 
 Route::group(['middleware' =>'auth'], function() {
 
