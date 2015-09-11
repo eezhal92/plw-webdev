@@ -26,6 +26,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         parent::registerPolicies($gate);
 
-        //
+        $gate->before(function($user) {
+          if($user->admin) {
+            return true;
+          }
+        });
     }
 }
