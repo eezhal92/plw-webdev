@@ -108,11 +108,18 @@ class AuthController extends Controller
             return $authUser;
         }
 
-        return User::create([
+        $user = User::create([
             'username' => $githubUser->nickname,
             'name' => $githubUser->name,
             'email' => $githubUser->email,
             'avatar' => $githubUser->avatar
         ]);
+
+        if(User::where('admin', true)->get()->count() == 0) {
+            $user->admin = true;
+            $user->save();
+        }
+
+        return $user;
     }
 }
