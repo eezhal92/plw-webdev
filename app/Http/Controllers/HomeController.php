@@ -7,83 +7,41 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Post;
+use Gate;
 
 class HomeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display homepage.
      *
      * @return Response
      */
-    public function index()
+    public function home()
     {
-        $posts = Post::all();
+        $posts = Post::orderBy('created_at', 'desc')->simplePaginate(5);
         return view('front.home', compact('posts'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display specified post.
      *
      * @return Response
      */
-    public function create()
-    {
-        //
-    }
+     public function showArticle($slug)
+     {
+        try {
+            $post = Post::where('slug', $slug)->firstOrFail();
+        } catch(\Exception $e) {
+            return redirect('/')->with('error', $e->getMessage());
+        }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Request  $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        if($post->member) {
+            if(!auth()->check()) {
+                return redirect('/')->with('error', 'Ooops! That post only can be viewed by member.');
+            }
+        }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        return view('front.posts.show', compact('post'));
+     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

@@ -19,5 +19,9 @@ class UserTableSeeder extends Seeder
         factory('App\User', 3)->create()->each(function($user) {
             $user->posts()->save(factory('App\Post')->create());
         });
+
+        factory('App\User', 3)->create()->each(function($user) {
+            $user->posts()->save(factory('App\Post', 'post-member')->create());
+        });
     }
 }

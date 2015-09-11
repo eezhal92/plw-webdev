@@ -6,52 +6,33 @@
 
     <div class="row">
       <div class="col-md-8">
+        <h2>Recent Articles</h2>
         @foreach($posts as $post)
           <div class="">
-            <h2>{{ $post->title }}</h2>
+            <h2><a href="{{ route('articles.show', $post->slug)}}">{{ $post->title }}</a></h2>
             <p>
               {{ str_limit($post->body, 120, '...') }}
             </p>
             <hr>
-            <i class="fa fa-user"></i> {{ $post->user->username }}
+            <i class="fa fa-user"></i> {{ '@' . $post->user->username }} &nbsp;
+            <i class="fa fa-calendar"></i> {{ $post->created_at->format('M d, Y h:i') }}
+            @if($post->member)
+            &nbsp; <span class="label label-success">MEMBER</span>
+            @endif
+            @can('update', $post)
+              <a href="#" class="btn btn-xs btn-danger btn-delete pull-right" data-url="{{ route('posts.destroy', $post->id) }}" style="margin-left: 5px;"><i class="fa fa-trash"></i> Delete</a>
+              <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-xs btn-warning pull-right"><i class="fa fa-pencil"></i> Edit</a>
+            @endcan
             <hr>
           </div>
           <br>
         @endforeach
+
+        {!! $posts->setPath('')->appends(Request::except('page'))->render() !!}
       </div>
 
       <div class="col-md-4">
-        @if(Auth::user())
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <b>Your Details:</b>
-          </div>
-          <div class="panel-body">
-
-            <div class="row">
-              <div class="col-md-4">
-                <img src="{{ Auth::user()->avatar }}" class="img img-responsive"alt="" /><br>
-              </div>
-
-              <div class="col-md-8">
-
-                <div class="">
-                  <span>Username</span>
-                  <label for="">{{ Auth::user()->username }}</label>
-                </div>
-
-                <div class="">
-                  <span>Name</span>
-                  <label for="">{{ Auth::user()->name }}</label>
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-        </div>
-        @endif
+        @include('layout.sidebar')
       </div>
     </div>
 

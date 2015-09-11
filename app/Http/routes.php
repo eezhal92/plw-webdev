@@ -1,23 +1,24 @@
 <?php
 
-get('/', 'HomeController@index');
+get('/', 'HomeController@home');
+get('/articles/{slug}', [
+    'as' => 'articles.show',
+    'uses' => 'HomeController@showArticle'
+]);
+get('/user/{username}/articles', function() {
 
-get('auth/login', 'Auth\AuthController@getLogin');
+});
 get('auth/github', 'Auth\AuthController@redirectToProvider');
 get('auth/github/callback', 'Auth\AuthController@handleProviderCallback');
 
 Route::group(['middleware' =>'auth'], function() {
 
-  get('dashboard', function() {
-    echo '<img src="'. Auth::user()->avatar .'" />';
-    return 'youre logged in';
-  });
-
   get('auth/logout', function() {
-    \Auth::logout();
+      \Auth::logout();
 
-    return redirect('/');
+      return redirect('/');
   });
 
+  resource('posts', 'PostController');
 
 });
