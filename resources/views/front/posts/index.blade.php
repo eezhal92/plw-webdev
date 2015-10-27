@@ -8,6 +8,7 @@
 
     <div class="col-md-8">
       <h2>List of Your Posts</h2>
+      {!! ($posts->count() == 0) ? '<span><i>Oooops, there\'s nothing here</i></span>' : '' !!}
       @foreach($posts as $post)
         <div class="">
           <h2><a href="{{ route('articles.show', $post->slug)}}">{{ $post->title }}</a></h2>

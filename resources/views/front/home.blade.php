@@ -6,7 +6,8 @@
 
     <div class="row">
       <div class="col-md-8">
-        <h2>Recent Articles</h2>
+        <h2>Recent Articles {{ (Request::has('page')) ? 'Page : ' . Request::get('page') : '' }}</h2>
+        {!! ($posts->count() == 0) ? '<span><i>Oooops, there\'s nothing here</i></span>' : '' !!}
         @foreach($posts as $post)
           <div class="">
             <h2><a href="{{ route('articles.show', $post->slug)}}">{{ $post->title }}</a></h2>

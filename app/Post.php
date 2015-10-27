@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\SearchTrait;
 
 class Post extends Model
 {
+    use SearchTrait;
 
     protected $table = 'posts';
 

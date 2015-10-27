@@ -18,7 +18,7 @@ class HomeController extends Controller
      */
     public function home()
     {
-        $posts = Post::orderBy('created_at', 'desc')->simplePaginate(5);
+        $posts = Post::with('user')->orderBy('created_at', 'desc')->simplePaginate(5);
         return view('front.home', compact('posts'));
     }
 
@@ -41,7 +41,11 @@ class HomeController extends Controller
             }
         }
 
+        if (Gate::denies('see-member-type-post', $post)) {
+            dd('forbidden');
+        }
+
         return view('front.posts.show', compact('post'));
-     }
+    }
 
 }

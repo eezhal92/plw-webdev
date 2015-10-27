@@ -28,6 +28,9 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot($events);
 
+        \DB::listen(function($sql, $bindings, $time) {
+            var_dump($sql);
+        });
         //
     }
 }

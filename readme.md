@@ -15,4 +15,4 @@
 
 > **Note:**
 
-> - Yang pertama kali loginmenggunakan Github akan menjadi Admin. Check di `app\Http\Controllers\Auth\AuthController` pada method `findOrCreateUser`
+> - Yang pertama kali login menggunakan Github akan menjadi Admin. Check di `app\Http\Controllers\Auth\AuthController` pada method `findOrCreateUser`
